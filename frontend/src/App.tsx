@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ToDoList from './components/ToDoList/ToDoList';
 import Todo from './interfaces/Todo';
+import { fetchTodos } from './graphQLRequests';
+
 function App() {
-    const t = [
-        { id: 1, title: 'Learn React', completed: false },
-        { id: 2, title: 'Learn GraphQL', completed: false },
-        { id: 3, title: 'Learn TypeScript', completed: false },
-    ];
-    const [todos, setTodos] = useState<any>(t);
+    const [todos, setTodos] = useState<Array<Todo>>([]);
+    
+    useEffect(() => {
+        fetchTodos().then(todos => setTodos(todos));
+    }, []);
 
     const onToggleComplete = (id: number) => {
         setTodos(

@@ -1,9 +1,12 @@
-import 'reflect-metadata';
-import express, { Application } from 'express';
+import { ApolloServer } from '@apollo/server';
+import { startStandaloneServer } from '@apollo/server/standalone';
 
-const PORT: number = 4000;
-const app: Application = express();
+import typeDefs from './graphql/typeDefs.js';
+import resolvers from './graphql/resolvers.js';
 
-app.listen(PORT, () => {
-    console.log('Server is running on port PORT');
+const PORT: number = 8080;
+
+const server = new ApolloServer({ typeDefs, resolvers });
+await startStandaloneServer(server, {
+    listen: { port: PORT },
 });

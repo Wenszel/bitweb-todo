@@ -41,10 +41,10 @@ export default function DrawerLayout({ mainContent, drawerContent, footerContent
                 aria-label="open drawer"
                 onClick={handleDrawerToggle}
                 sx={{
-                    position: 'absolute', 
-                    top: 16, 
+                    position: 'absolute',
+                    top: 16,
                     left: 16,
-                    display: { xs: 'block', sm: 'none' }, 
+                    display: { xs: 'block', sm: 'none' }, // Ukryj przycisk na większych ekranach
                 }}
             >
                 <MenuIcon />
@@ -78,7 +78,15 @@ export default function DrawerLayout({ mainContent, drawerContent, footerContent
             </Box>
             <Box component="main" sx={{ flexGrow: 1, width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` } }}>
                 <Box>{mainContent}</Box>
-                <Box sx={{ position: 'absolute', bottom: 0, width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` } }}>
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        bottom: 0,
+                        paddingX: 3,
+                        paddingY: 1,
+                        width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` },
+                    }}
+                >
                     {footerContent}
                 </Box>
             </Box>

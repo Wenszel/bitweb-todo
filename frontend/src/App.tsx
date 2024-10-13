@@ -2,12 +2,18 @@ import { useEffect, useState } from 'react';
 import ToDoList from './components/ToDoList/ToDoList';
 import Todo from './interfaces/Todo';
 import { fetchTodos } from './graphQLRequests';
+import AddToDo from './components/AddToDo/AddToDo';
 
 function App() {
     const [todos, setTodos] = useState<Array<Todo>>([]);
-    
+
+    const fetchingData = async () => {
+        const data = await fetchTodos();
+        setTodos(data);
+    }
+
     useEffect(() => {
-        fetchTodos().then(todos => setTodos(todos));
+        fetchingData();
     }, []);
 
     const onToggleComplete = (id: number) => {
@@ -31,6 +37,7 @@ function App() {
         <>
             <div className="App">
                 <ToDoList todos={todos} onToggleComplete={onToggleComplete} onDelete={onDelete} />
+                <AddToDo fetchTodos={fetchingData}/>
             </div>
         </>
     );

@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const drawerWidth = 240;
+const footerHeight = 90;
 
 interface Props {
     drawerContent: React.ReactElement;
@@ -43,8 +44,8 @@ export default function DrawerLayout({ mainContent, drawerContent, footerContent
                 sx={{
                     position: 'absolute',
                     top: 16,
-                    left: 16,
-                    display: { xs: 'block', sm: 'none' }, // Ukryj przycisk na większych ekranach
+                    right: 16,
+                    display: { xs: 'block', sm: 'none' },
                 }}
             >
                 <MenuIcon />
@@ -53,6 +54,7 @@ export default function DrawerLayout({ mainContent, drawerContent, footerContent
                 <Drawer
                     variant="temporary"
                     open={mobileOpen}
+                    
                     onTransitionEnd={handleDrawerTransitionEnd}
                     onClose={handleDrawerClose}
                     ModalProps={{
@@ -76,14 +78,29 @@ export default function DrawerLayout({ mainContent, drawerContent, footerContent
                     {drawerContent}
                 </Drawer>
             </Box>
-            <Box component="main" sx={{ flexGrow: 1, width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` } }}>
-                <Box>{mainContent}</Box>
+            <Box
+                component="main"
+                sx={{ flexGrow: 1, backgroundColor: 'grey.100', width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` } }}
+            >
+                <Box
+                    sx={{
+                        display: 'flex',
+                        padding: 3,
+                        flexDirection: 'column',
+                        width: '100%',
+                        alignItems: 'flex-start',
+                        height: `calc(100vh - ${footerHeight}px)`,
+                    }}
+                >
+                    {mainContent}
+                </Box>
                 <Box
                     sx={{
                         position: 'absolute',
                         bottom: 0,
-                        paddingX: 3,
-                        paddingY: 1,
+                        p: 3,
+                        backgroundColor: 'grey.100',
+                        height: footerHeight,
                         width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` },
                     }}
                 >

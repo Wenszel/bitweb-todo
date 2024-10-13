@@ -39,7 +39,7 @@ function App() {
             <div className="App">
                 <DrawerLayout
                     drawerContent={<AddToDo fetchTodos={fetchingData} />}
-                    mainContent={<ToDoList todos={todos} onToggleComplete={onToggleComplete} onDelete={onDelete} />}
+                    mainContent={<ToDoList listName={'Inbox'} todos={todos} onToggleComplete={onToggleComplete} onDelete={onDelete} />}
                     footerContent={<AddToDo fetchTodos={fetchingData} />}
                 />
             </div>

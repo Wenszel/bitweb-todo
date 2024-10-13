@@ -1,32 +1,40 @@
-import { List, Typography, Paper, Box } from '@mui/material';
-import Todo from "../../interfaces/Todo"; 
+import { Typography, Paper, Table, TableContainer, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
+import Todo from '../../interfaces/Todo';
 import ToDoElement from '../ToDoElement/ToDoElement';
 
 interface ToDoListProps {
     todos: Todo[];
+    listName: string;
     onToggleComplete: (id: number) => void;
     onDelete: (id: number) => void;
 }
 
-const ToDoList = ({ todos, onToggleComplete, onDelete }: ToDoListProps) => {
+const ToDoList = ({ todos, listName, onToggleComplete, onDelete }: ToDoListProps) => {
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-            <Paper elevation={3} sx={{ width: '100%', maxWidth: 600, p: 2 }}>
-                <Typography variant="h5" sx={{ textAlign: 'center', mb: 2 }}>
-                    My To-Do List
-                </Typography>
-                <List>
-                    {todos.map(todo => (
-                        <ToDoElement
-                            key={todo.id}
-                            todo={todo}
-                            onToggleComplete={onToggleComplete}
-                            onDelete={onDelete}
-                        />
-                    ))}
-                </List>
+        <>
+            <Typography variant="h2" sx={{ textAlign: 'center', mb: 1 }}>
+                {listName}
+            </Typography>
+            <Paper elevation={4} sx={{ width: '100%', overflow: 'scroll' }}>
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell sx={{ width: 50 }}></TableCell>
+                                <TableCell sx={{ width: 100 }}>Date</TableCell>
+                                <TableCell sx={{ width: 250 }}>Title</TableCell>
+                                <TableCell sx={{ width: 80 }}></TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {todos.map(todo => (
+                                <ToDoElement key={todo.id} todo={todo} onToggleComplete={onToggleComplete} onDelete={onDelete} />
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </Paper>
-        </Box>
+        </>
     );
 };
 

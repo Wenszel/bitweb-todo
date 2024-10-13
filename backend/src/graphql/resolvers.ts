@@ -6,11 +6,23 @@ export default {
         todos: () => {
             return todoService.getAllTodos();
         },
-        todosByListName: (_, { listName }) => {
-            return todoListService.todosByListName(listName);
+        todosByListId: (_, { listId }) => {
+            return todoListService.todoListById(listId);
         },
         listNames: () => {
             return todoListService.getAllNames();
+        },
+        getInbox: () => {
+            return todoService.getInbox();
+        },
+        getToday: () => {
+            return todoService.getToday();
+        },
+        getWeek: () => {
+            return todoService.getWeek();
+        },
+        getImportant: () => {
+            return todoService.getImportant();
         },
     },
     Mutation: {

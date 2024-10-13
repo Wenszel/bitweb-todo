@@ -8,19 +8,21 @@ import NameObject from '../interfaces/NameObject';
 
 interface ListCollectionProps {
     lists: NameObject[];
+    handleListClick: (id: number, name: string) => void;
 }
 
 interface defaultListElement {
+    id: number;
     name: string;
     icon: React.ComponentType<SvgIconProps>;
 }
 
-export default function ListCollection({ lists }: ListCollectionProps) {
+export default function ListCollection({ lists, handleListClick }: ListCollectionProps) {
     const defaultLists: Array<defaultListElement> = [
-        { name: 'Inbox', icon: InboxIcon },
-        { name: 'Today', icon: TodayIcon },
-        { name: 'Next 7 days', icon: CalendarMonthIcon },
-        { name: 'Important', icon: StarIcon },
+        { id: -1, name: 'Inbox', icon: InboxIcon },
+        { id: -2, name: 'Today', icon: TodayIcon },
+        { id: -3, name: 'Next 7 days', icon: CalendarMonthIcon },
+        { id: -4, name: 'Important', icon: StarIcon },
     ];
 
     return (
@@ -35,6 +37,7 @@ export default function ListCollection({ lists }: ListCollectionProps) {
                             '&:hover': { bgcolor: '#f0f0f0' },
                         }}
                         key={element.name}
+                        onClick={() => handleListClick(element.id, element.name)}
                     >
                         <element.icon sx={{ mr: 1 }} />
                         {element.name}
@@ -52,6 +55,7 @@ export default function ListCollection({ lists }: ListCollectionProps) {
                             '&:hover': { bgcolor: '#f0f0f0' },
                         }}
                         key={list.id}
+                        onClick={() => handleListClick(list.id, list.name)}
                     >
                         {list.name}
                     </ListItem>

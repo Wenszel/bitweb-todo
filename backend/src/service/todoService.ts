@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { Repository, Between } from 'typeorm';
 import { getTodoRepository, getTodoListRepository } from '../orm/datasource.js';
 import { Todo } from '../orm/entity/todo.js';
 import { TodoList } from '../orm/entity/todoLists.js';
@@ -13,7 +13,30 @@ export default {
         const todoRepository = await getTodoRepository();
         return await todoRepository.findOneBy({ id });
     },
+    async getImportant(): Promise<Todo[]> {
+        const todoRepository: Repository<Todo> = await getTodoRepository();
+        return await todoRepository.findBy({ important: true });
+    },
+    async getInbox(): Promise<Todo[]> {
+        const todoRepository: Repository<Todo> = await getTodoRepository();
+        return await todoRepository.findBy({ todoList: null });
+    },
+    async getToday(): Promise<Todo[]> {
+        const todoRepository: Repository<Todo> = await getTodoRepository();
+        return await todoRepository.findBy({ dueTo: new Date().toISOString().split('T')[0] });
+    },
+    async getWeek(): Promise<Todo[]> {
+        const todoRepository: Repository<Todo> = await getTodoRepository();
+        const today = new Date();
+        const week = new Date(today);
+        week.setDate(today.getDate() + 7);
 
+        return await todoRepository.find({
+            where: {
+                dueTo: Between(today.toISOString().split('T')[0], week.toISOString().split('T')[0]),
+            },
+        });
+    },
     async createTodo(data: Partial<Todo>, listId: number|undefined): Promise<Todo> {
         const todoRepository: Repository<Todo> = await getTodoRepository();
         const listRepository: Repository<TodoList> = await getTodoListRepository();

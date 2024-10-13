@@ -15,6 +15,9 @@ export class Todo {
     @Column({ nullable: true })
     dueTo: string;
 
+    @Column({ nullable: false })
+    important: boolean = false;
+
     @ManyToOne(() => TodoList, todoList => todoList.todos, {
         cascade: true,
         nullable: true,

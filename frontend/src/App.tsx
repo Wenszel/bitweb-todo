@@ -1,22 +1,24 @@
 import { useEffect, useState } from 'react';
 import ToDoList from './components/ToDoList/ToDoList';
 import Todo from './interfaces/Todo';
-import { fetchTodos } from './graphQLRequests';
+import { getTodoListNames, fetchTodos, removeTodoById } from './graphQLRequests';
+import NameObject from './interfaces/NameObject';
 import AddToDo from './components/AddToDo/AddToDo';
 import DrawerLayout from './layout/DrawerLayout';
 import ListCollection from './components/ListCollection';
 
 function App() {
     const [todos, setTodos] = useState<Array<Todo>>([]);
-    const [lists, setLists] = useState<Array<string>>([]);
+    const [lists, setLists] = useState<Array<NameObject>>([]);
 
     const fetchingData = async () => {
-        const data = await fetchTodos();
-        setTodos(data);
+        const todosData: Todo[] = await fetchTodos();
+        const listsData: NameObject[] = await getTodoListNames();
+        setTodos(todosData);
+        setLists(listsData);
     };
 
     useEffect(() => {
-        setLists(['Inbox', 'Today', 'Next 7 days']);
         fetchingData();
     }, []);
 
@@ -33,8 +35,10 @@ function App() {
         );
     };
 
-    const onDelete = (id: number) => {
-        setTodos(todos.filter((todo: Todo) => todo.id !== id));
+    const onDelete = async (id: number) => {
+        console.log('Deleting todo with id:', id);
+        await removeTodoById(id);
+        fetchingData();
     };
 
     return (

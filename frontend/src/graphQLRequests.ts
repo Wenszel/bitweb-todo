@@ -29,6 +29,31 @@ export async function fetchTodos() {
     }
 }
 
+export async function removeTodoById(id: number) {
+    const query = `
+        mutation {
+          removeTodoById(id: ${id})
+}
+            `;
+    try {
+        const response = await fetch('http://localhost:8080/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                query,
+            }),
+        });
+
+        const result = await response.json();
+        const removedTodo = result.data.removeTodoById;
+        return removedTodo;
+    } catch (error) {
+        console.error('Error removing todo:', error);
+    }
+}
+
 export async function addTodo(title: string, dueTo?: string) {
     const query = `
         mutation {
@@ -56,5 +81,33 @@ export async function addTodo(title: string, dueTo?: string) {
         return newTodo;
     } catch (error) {
         console.error('Error adding todo:', error);
+    }
+}
+
+export async function getTodoListNames() {
+    const query = `
+        query {
+          listNames {
+            id
+            name
+          }
+        }
+      `;
+    try {
+        const response = await fetch('http://localhost:8080/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                query,
+            }),
+        });
+
+        const result = await response.json();
+        console.log(result.data.listNames);
+        return result.data.listNames;
+    } catch (error) {
+        console.error('Error fetching todo list names:', error);
     }
 }

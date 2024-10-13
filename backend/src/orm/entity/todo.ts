@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { TodoList } from './todoLists.js';
 
 @Entity()
 export class Todo {
@@ -13,4 +14,10 @@ export class Todo {
 
     @Column({ nullable: true })
     dueTo: string;
+
+    @ManyToOne(() => TodoList, todoList => todoList.todos, {
+        cascade: true,
+        nullable: true,
+    })
+    todoList: TodoList;
 }

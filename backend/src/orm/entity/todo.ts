@@ -1,11 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Todo {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column("text")
+    @Column('text')
     title: string;
 
     @Column()
@@ -14,4 +14,3 @@ export class Todo {
     @Column({ nullable: true })
     dueTo: string;
 }
-

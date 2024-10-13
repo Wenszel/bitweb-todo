@@ -21,7 +21,12 @@ export default function AddTodo({ fetchTodos }: AddTodoProps) {
 
     return (
         <Box sx={{ display: 'flex' }}>
-            <TextField label="Enter todo" inputRef={titleRef} fullWidth />
+            <TextField
+                label="Enter todo"
+                inputRef={titleRef}
+                fullWidth
+                sx={{ backgroundColor: 'white', borderRadius: 2, marginRight: 1 }}
+            />
             <Button sx={{ flex: 1 }} onClick={() => handleAddTodo()} color="primary" fullWidth>
                 <AddIcon />
             </Button>

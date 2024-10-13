@@ -1,18 +1,31 @@
 import todoService from '../service/todoService.js';
+import todoListService from '../service/todoListService.js';
 
 export default {
     Query: {
         todos: () => {
             return todoService.getAllTodos();
         },
+        todosByListName: (_, { listName }) => {
+            return todoListService.todosByListName(listName);
+        },
+        listNames: () => {
+            return todoListService.getAllNames();
+        },
     },
     Mutation: {
-        addTodo: async (_, {title, dueTo}) => {
-            return await todoService.createTodo({
-                title,
-                completed: false,
-                dueTo,
-            });
+        addList: async (_, { name }) => {
+            return await todoListService.createList(name);
+        },
+        addTodo: async (_, { title, dueTo, listId }) => {
+            return await todoService.createTodo(
+                {
+                    title,
+                    completed: false,
+                    dueTo,
+                },
+                listId,
+            );
         },
         toggleTodoStatus: async (_, { id }) => {
             return await todoService.updateTodo(id, { completed: true });

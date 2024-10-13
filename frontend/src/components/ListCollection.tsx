@@ -4,8 +4,10 @@ import StarIcon from '@mui/icons-material/Star';
 import TodayIcon from '@mui/icons-material/Today';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { SvgIconProps } from '@mui/material/SvgIcon';
+import NameObject from '../interfaces/NameObject';
+
 interface ListCollectionProps {
-    lists: string[];
+    lists: NameObject[];
 }
 
 interface defaultListElement {
@@ -41,7 +43,7 @@ export default function ListCollection({ lists }: ListCollectionProps) {
             </List>
             <Divider />
             <List>
-                {lists.map(list => (
+                {lists.map((list: NameObject) => (
                     <ListItem
                         sx={{
                             bgcolor: 'background.paper',
@@ -49,9 +51,9 @@ export default function ListCollection({ lists }: ListCollectionProps) {
                             cursor: 'pointer',
                             '&:hover': { bgcolor: '#f0f0f0' },
                         }}
-                        key={list}
+                        key={list.id}
                     >
-                        {list}
+                        {list.name}
                     </ListItem>
                 ))}
             </List>

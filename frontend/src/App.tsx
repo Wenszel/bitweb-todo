@@ -3,6 +3,7 @@ import ToDoList from './components/ToDoList/ToDoList';
 import Todo from './interfaces/Todo';
 import { fetchTodos } from './graphQLRequests';
 import AddToDo from './components/AddToDo/AddToDo';
+import DrawerLayout from './layout/DrawerLayout';
 
 function App() {
     const [todos, setTodos] = useState<Array<Todo>>([]);
@@ -10,7 +11,7 @@ function App() {
     const fetchingData = async () => {
         const data = await fetchTodos();
         setTodos(data);
-    }
+    };
 
     useEffect(() => {
         fetchingData();
@@ -36,8 +37,11 @@ function App() {
     return (
         <>
             <div className="App">
-                <ToDoList todos={todos} onToggleComplete={onToggleComplete} onDelete={onDelete} />
-                <AddToDo fetchTodos={fetchingData}/>
+                <DrawerLayout
+                    drawerContent={<AddToDo fetchTodos={fetchingData} />}
+                    mainContent={<ToDoList todos={todos} onToggleComplete={onToggleComplete} onDelete={onDelete} />}
+                    footerContent={<AddToDo fetchTodos={fetchingData} />}
+                />
             </div>
         </>
     );

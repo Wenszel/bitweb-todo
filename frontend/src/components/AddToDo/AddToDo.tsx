@@ -22,20 +22,17 @@ export default function AddTodo({ fetchTodos }: AddTodoProps) {
         <Box
             sx={{
                 display: 'flex',
-                flexDirection: 'column',
+                flexDirection: 'row',
                 alignItems: 'center',
                 gap: 2,
                 padding: 2,
-                maxWidth: 400,
                 margin: '0 auto',
+                width: '100%',
                 boxShadow: 3,
                 borderRadius: 2,
             }}
         >
             <TextField label="Title" variant="outlined" inputRef={titleRef} fullWidth placeholder="Title" />
-
-            <TextField label="Due Date" type="date" inputRef={dueToRef} variant="outlined" fullWidth />
-
             <Button onClick={() => handleAddTodo()} variant="contained" color="primary" fullWidth>
                 Add
             </Button>

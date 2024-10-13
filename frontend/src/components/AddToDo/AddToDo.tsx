@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { TextField, Button, Box } from '@mui/material';
 import { addTodo } from '../../graphQLRequests';
+import AddIcon from '@mui/icons-material/Add';
 
 interface AddTodoProps {
     fetchTodos: () => Promise<void>;
@@ -19,22 +20,10 @@ export default function AddTodo({ fetchTodos }: AddTodoProps) {
     };
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 2,
-                padding: 2,
-                margin: '0 auto',
-                width: '100%',
-                boxShadow: 3,
-                borderRadius: 2,
-            }}
-        >
-            <TextField label="Title" variant="outlined" inputRef={titleRef} fullWidth placeholder="Title" />
-            <Button onClick={() => handleAddTodo()} variant="contained" color="primary" fullWidth>
-                Add
+        <Box sx={{ display: 'flex' }}>
+            <TextField label="Enter todo" inputRef={titleRef} fullWidth />
+            <Button sx={{ flex: 1 }} onClick={() => handleAddTodo()} color="primary" fullWidth>
+                <AddIcon />
             </Button>
         </Box>
     );

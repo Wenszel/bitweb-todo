@@ -14,3 +14,4 @@ export class Todo {
     @Column({ nullable: true })
     dueTo: string;
 }
+

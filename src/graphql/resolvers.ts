@@ -1,59 +1,30 @@
-interface ToDoInput {
-    title: string;
-    dueTo: string | null;
-}
+import todoService from '../service/todoService.js';
 
 export default {
     Query: {
         todos: () => {
-            return [
-                {
-                    id: '1',
-                    title: 'Buy milk',
-                    completed: false,
-                    dueTo: '2020-01-01'
-                },
-                {
-                    id: '2',
-                    title: 'Call mom',
-                    completed: true,
-                    dueTo: '2020-01-02'
-                }
-            ];
-        }
+            return todoService.getAllTodos();
+        },
     },
     Mutation: {
-        addTodo: (args: ToDoInput) => {
-            return {
-                id: '3',
-                title: args.title,
+        addTodo: async (_, {title, dueTo}) => {
+            return await todoService.createTodo({
+                title,
                 completed: false,
-                dueTo: args.dueTo
-            };
+                dueTo,
+            });
         },
-        toggleTodoStatus: (id: number) => {
-            return {
-                id: id,
-                title: 'Buy milk',
-                completed: true,
-                dueTo: '2020-01-01'
-            };
+        toggleTodoStatus: async (_, { id }) => {
+            return await todoService.updateTodo(id, { completed: true });
         },
-        removeTodoById: (id: number) => {
-            return {
-                id: id,
-                title: 'Buy milk',
-                completed: false,
-                dueTo: '2020-01-01'
-            };
+        removeTodoById: async (_, { id }) => {
+            return await todoService.deleteTodo(id);
         },
-        addTodoDueDate: (id: number) => {
-            return {
-                id: id,
-                title: 'Buy milk',
-                completed: false,
-                dueTo: "2020-01-01" 
-            };
+        addTodoDueDate: async (_, { id }) => {
+            return await todoService.updateTodo(id, { dueTo: '2021-12-31' });
         },
-    }
-}
+        renameTodo: async (_, { id, title }) => {
+            return await todoService.updateTodo(id, { title });
+        },
+    },
+};

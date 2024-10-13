@@ -21,7 +21,11 @@ export default buildSchema(`#graphql
 
   type Query {
     listNames: [NameObject!]!
-    todosByListName(listName: String!): [Todo!]!
+    todosByListId(listId: ID!): [Todo!]!
+    getInbox: [Todo!]!
+    getToday: [Todo!]!
+    getWeek: [Todo!]!
+    getImportant: [Todo!]!
     todos: [Todo!]!
   }
 

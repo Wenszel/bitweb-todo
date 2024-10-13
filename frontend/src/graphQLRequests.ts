@@ -1,7 +1,7 @@
-export async function fetchTodos() {
+export async function fetchTodos(listId: number) {
     const query = `
           query {
-            todos {
+            todosByListId(listId: ${listId}) {
               id
               title
               completed
@@ -22,8 +22,36 @@ export async function fetchTodos() {
         });
 
         const result = await response.json();
-        console.log(result.data.todos);
-        return result.data.todos;
+        console.log('result' + JSON.stringify(result));
+        return result.data.todosByListId;
+    } catch (error) {
+        console.error('Error fetching todos:', error);
+    }
+}
+
+export async function fetchNotStandardLists(type: string) {
+    const query = `
+            query {
+                get${type} {
+                id
+                title
+                completed
+                dueTo
+                }
+    }`
+    try {
+        const response = await fetch('http://localhost:8080/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                query,
+            }),
+        });
+
+        const result = await response.json();
+        return result.data[`get${type}`];
     } catch (error) {
         console.error('Error fetching todos:', error);
     }

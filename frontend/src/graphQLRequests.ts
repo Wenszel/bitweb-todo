@@ -34,6 +34,7 @@ export async function fetchNotStandardLists(type: string) {
                 get${type} {
                 id
                 title
+                important
                 completed
                 dueTo
                 }
@@ -145,7 +146,7 @@ export async function renameTodo(id: number, title: string) {
     const result = await response.json();
     return result.data.updateTodo;
 }
- 
+
 export async function changeDueTo(id: number, dueTo: string) {
     const query = `
         mutation {

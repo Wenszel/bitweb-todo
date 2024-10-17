@@ -1,15 +1,16 @@
 import { Box } from '@mui/material';
+import { useBoundStore } from '../../store/boundStore';
 import AddIcon from '@mui/icons-material/Add';
 
-interface AddListProps {
-    handleAddListClick: () => void;
-}
+export default function AddList() {
+    const setShowNewList = useBoundStore(state => state.setShowNewList);
 
-export default function AddList({ handleAddListClick }: AddListProps) {
+    const handleAddListClick = () => {
+        setShowNewList(true);
+    };
+
     return (
-        <Box
-         onClick={() => handleAddListClick()}
-         sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+        <Box onClick={handleAddListClick} sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
             <AddIcon />
             Add new list
         </Box>

@@ -7,7 +7,7 @@ export class TodoList {
     id: number;
 
     @Column('text')
-    title: string;
+    name: string;
 
     @OneToMany(() => Todo, todo => todo.todoList)
     todos: Todo[];

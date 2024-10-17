@@ -3,12 +3,10 @@ import Todo from '../../interfaces/Todo';
 import ToDoElement from '../ToDoElement/ToDoElement';
 import {useBoundStore }from '../../store/boundStore';
 
-interface ToDoListProps {
-    listName: string;
-}
 
-const ToDoList = ({ listName }: ToDoListProps) => {
+const ToDoList = () => {
     const todos = useBoundStore(state => state.todos);
+    const listName = useBoundStore(state => state.selectedList).name;
 
     return (
         <>

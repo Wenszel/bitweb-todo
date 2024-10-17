@@ -27,7 +27,9 @@ export default {
     },
     Mutation: {
         addList: async (_, { name }) => {
-            return await todoListService.createList(name);
+            const output = await todoListService.createList(name);
+            console.log(output);
+            return output;
         },
         addTodo: async (_, { title, listId }) => {
             return await todoService.createTodo(
@@ -47,7 +49,7 @@ export default {
         addTodoDueDate: async (_, { id }) => {
             return await todoService.updateTodo(id, { dueTo: '2021-12-31' });
         },
-        updateTodo: async (_, {id, data}) => {
+        updateTodo: async (_, { id, data }) => {
             return await todoService.updateTodo(id, data);
         },
     },

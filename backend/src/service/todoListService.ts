@@ -12,7 +12,7 @@ export default {
     async createList(name: string): Promise<TodoList> {
         const todoListRepository: Repository<TodoList> = await getTodoListRepository();
         const todoList: TodoList = new TodoList();
-        todoList.title = name;
+        todoList.name = name;
         return await todoListRepository.save(todoList);
     },
     async getAllNames(): Promise<NameObject[]> {
@@ -21,7 +21,7 @@ export default {
         return todoLists
             .map(todoList => ({
                 id: todoList.id,
-                name: todoList.title,
+                name: todoList.name,
             }))
             .sort((a, b) => b.id - a.id);
     },

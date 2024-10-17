@@ -23,13 +23,9 @@ export async function fetchTodos(listId: number) {
           }
         `;
 
-    try {
-        const response = await graphQLFetch(query);
-        const result = await response.json();
-        return result.data.todosByListId;
-    } catch (error) {
-        console.error('Error fetching todos:', error);
-    }
+    const response = await graphQLFetch(query);
+    const result = await response.json();
+    return result.data.todosByListId;
 }
 
 export async function fetchNotStandardLists(type: string) {
@@ -42,13 +38,9 @@ export async function fetchNotStandardLists(type: string) {
                 dueTo
                 }
     }`;
-    try {
-        const response = await graphQLFetch(query);
-        const result = await response.json();
-        return result.data[`get${type}`];
-    } catch (error) {
-        console.error('Error fetching todos:', error);
-    }
+    const response = await graphQLFetch(query);
+    const result = await response.json();
+    return result.data[`get${type}`];
 }
 
 export async function changeImportance(id: number, important: boolean) {
@@ -62,13 +54,9 @@ export async function changeImportance(id: number, important: boolean) {
             important
           }
         }`;
-    try {
-        const response = await graphQLFetch(query);
-        const result = await response.json();
-        return result.data.updateTodo;
-    } catch (error) {
-        console.error('Error updating todo:', error);
-    }
+    const response = await graphQLFetch(query);
+    const result = await response.json();
+    return result.data.updateTodo;
 }
 
 export async function changeCompletedStatus(id: number, completed: boolean) {
@@ -93,11 +81,7 @@ export async function removeTodoById(id: number) {
           removeTodoById(id: ${id})
 }
             `;
-    try {
-        graphQLFetch(query);
-    } catch (error) {
-        console.error('Error removing todo:', error);
-    }
+    graphQLFetch(query);
 }
 
 export async function addTodo(title: string, listId: number) {
@@ -125,13 +109,9 @@ export async function getTodoListNames() {
           }
         }
       `;
-    try {
-        const response = await graphQLFetch(query);
-        const result = await response.json();
-        return result.data.listNames;
-    } catch (error) {
-        console.error('Error fetching todo list names:', error);
-    }
+    const response = await graphQLFetch(query);
+    const result = await response.json();
+    return result.data.listNames;
 }
 
 export async function addTodoList(name: string) {
@@ -143,12 +123,8 @@ export async function addTodoList(name: string) {
           }
         }
       `;
-    try {
-        const response = await graphQLFetch(query);
-        const result = await response.json();
-        const newList = result.data.addList;
-        return newList;
-    } catch (error) {
-        console.error('Error adding todo list:', error);
-    }
+    const response = await graphQLFetch(query);
+    const result = await response.json();
+    const newList = result.data.addList;
+    return newList;
 }

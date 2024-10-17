@@ -12,34 +12,30 @@ function App() {
     const [lists, setLists] = useState<Array<NameObject>>([]);
     const [selectedList, setSelectedList] = useState<number>(-1);
     const [selectedListName, setSelectedListName] = useState<string>('Inbox');
+    const [showNewList, setShowNewList] = useState<boolean>(false);
 
     const handleListClick = (id: number, name: string) => {
         setSelectedList(id);
-        setSelectedListName(name);    
-    }
+        setSelectedListName(name);
+    };
 
     const fetchingData = async () => {
         let todosData: Todo[];
         switch (selectedList) {
             case -1:
                 todosData = await fetchNotStandardLists('Inbox');
-                console.log('Fetching Inbox');
                 break;
             case -2:
                 todosData = await fetchNotStandardLists('Today');
-                console.log('Fetching Today');
                 break;
             case -3:
                 todosData = await fetchNotStandardLists('Week');
-                console.log('Fetching Next 7 days');
                 break;
             case -4:
                 todosData = await fetchNotStandardLists('Important');
-                console.log('Fetching Important');
                 break;
             default:
                 todosData = await fetchTodos(selectedList);
-                console.log('Fetching list with id:', selectedList);
                 break;
         }
         const listsData: NameObject[] = await getTodoListNames();
@@ -64,8 +60,11 @@ function App() {
         );
     };
 
+    const handleAddListClick = async () => {
+        setShowNewList(true);
+    };
+
     const onDelete = async (id: number) => {
-        console.log('Deleting todo with id:', id);
         await removeTodoById(id);
         fetchingData();
     };
@@ -74,8 +73,19 @@ function App() {
         <>
             <div className="App">
                 <DrawerLayout
-                    drawerContent={<ListCollection lists={lists} handleListClick={handleListClick} />}
-                    mainContent={<ToDoList listName={selectedListName} todos={todos} onToggleComplete={onToggleComplete} onDelete={onDelete} />}
+                    drawerContent={
+                        <ListCollection
+                            lists={lists}
+                            showNewList={showNewList}
+                            addedListCallback={fetchingData}
+                            setShowNewList={setShowNewList}
+                            handleListClick={handleListClick}
+                            handleAddListClick={handleAddListClick}
+                        />
+                    }
+                    mainContent={
+                        <ToDoList listName={selectedListName} todos={todos} onToggleComplete={onToggleComplete} onDelete={onDelete} />
+                    }
                     footerContent={<AddToDo fetchTodos={fetchingData} />}
                 />
             </div>

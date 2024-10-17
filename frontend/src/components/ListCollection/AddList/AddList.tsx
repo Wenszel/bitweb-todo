@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { useBoundStore } from '../../store/boundStore';
+import { useBoundStore } from '../../../store/boundStore';
 import AddIcon from '@mui/icons-material/Add';
 
 export default function AddList() {

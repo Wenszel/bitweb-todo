@@ -4,10 +4,10 @@ import StarIcon from '@mui/icons-material/Star';
 import TodayIcon from '@mui/icons-material/Today';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { SvgIconProps } from '@mui/material/SvgIcon';
-import NameObject from '../interfaces/NameObject';
+import NameObject from '../../interfaces/NameObject';
 import AddList from './AddList/AddList';
 import EntryNameListElement from './EntryNameListElement/EntryNameListElement';
-import { useBoundStore } from '../store/boundStore';
+import { useBoundStore } from '../../store/boundStore';
 
 interface defaultListElement {
     id: number;

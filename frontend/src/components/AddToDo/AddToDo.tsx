@@ -2,20 +2,25 @@ import { useRef } from 'react';
 import { TextField, Button, Box } from '@mui/material';
 import { addTodo } from '../../graphQLRequests';
 import AddIcon from '@mui/icons-material/Add';
+import useDataStore from '../../store/dataStore';
 
 interface AddTodoProps {
     selectedList: number;
-    fetchTodos: () => Promise<void>;
 }
 
-export default function AddTodo({ selectedList, fetchTodos }: AddTodoProps) {
+export default function AddTodo({ selectedList }: AddTodoProps) {
     const titleRef = useRef<HTMLInputElement>(null);
+    const storeAddTodo = useDataStore(state => state.addTodo);
 
     const handleAddTodo = async () => {
         const title = titleRef.current?.value;
         if (!title) return;
-        await addTodo(title, selectedList);
-        await fetchTodos();
+        try {
+            await addTodo(title, selectedList);
+            storeAddTodo(title)
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (

@@ -111,14 +111,9 @@ export async function addTodo(title: string, listId: number) {
           }
         }
       `;
-    try {
-        const response = await graphQLFetch(query);
-        const result = await response.json();
-        const newTodo = result.data.addTodo;
-        return newTodo;
-    } catch (error) {
-        console.error('Error adding todo:', error);
-    }
+    const response = await graphQLFetch(query);
+    const result = await response.json();
+    return result.data.addTodo;
 }
 
 export async function getTodoListNames() {

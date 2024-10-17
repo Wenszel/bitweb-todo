@@ -41,11 +41,11 @@ export default {
             },
         });
     },
-    async createTodo(data: Partial<Todo>, listId: number | undefined): Promise<Todo> {
+    async createTodo(data: Partial<Todo>, listId: number): Promise<Todo> {
         const todoRepository: Repository<Todo> = await getTodoRepository();
         const listRepository: Repository<TodoList> = await getTodoListRepository();
         const todo: Todo = todoRepository.create(data);
-        if (listId) {
+        if (listId && listId >= 0) {
             const list: TodoList = await listRepository.findOne({ where: { id: listId }, relations: ['todos'] });
             todo.todoList = list;
             list.todos.push(todo);
@@ -56,7 +56,6 @@ export default {
     async updateTodo(id: number, data: Partial<Todo>): Promise<Todo | null> {
         const todoRepository = await getTodoRepository();
         const todo = await todoRepository.findOneBy({ id });
-        console.log('happend');
         if (!todo) {
             return null;
         }

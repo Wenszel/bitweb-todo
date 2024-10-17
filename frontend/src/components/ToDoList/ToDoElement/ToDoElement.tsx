@@ -7,16 +7,19 @@ import { useBoundStore } from '../../../store/boundStore';
 import { useHandleCompleted } from '../../../hooks/todos/useHandleCompleted';
 import { useHandleImportance } from '../../../hooks/todos/useHandleImportance';
 import { useHandleDelete } from '../../../hooks/todos/useHandleDelete';
+import TodoName from './TodoName/TodoName';
 
 export interface ToDoElementProps {
     todo: Todo;
 }
 
 export default function ToDoElement({ todo }: ToDoElementProps) {
+
     const setXContextMenu = useBoundStore(state => state.setXContextMenu);
     const setYContextMenu = useBoundStore(state => state.setYContextMenu);
     const setShowContextMenu = useBoundStore(state => state.setShowContextMenu);
     const setModifyingTodo = useBoundStore(state => state.setModifyingTodo);
+
     const handleDelete = useHandleDelete();
     const handleCompleted = useHandleCompleted();
     const handleImportance = useHandleImportance();
@@ -51,7 +54,9 @@ export default function ToDoElement({ todo }: ToDoElementProps) {
                     />
                 </TableCell>
                 <TableCell>{todo.dueTo ? todo.dueTo : '-'}</TableCell>
-                <TableCell>{todo.title}</TableCell>
+                <TableCell>
+                    <TodoName todo={todo} />
+                </TableCell>
                 <TableCell>
                     <IconButton aria-label="delete" onClick={() => handleImportance(todo)}>
                         {todo.important ? <StarIcon /> : <StarBorderIcon />}

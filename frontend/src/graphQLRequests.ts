@@ -128,3 +128,21 @@ export async function addTodoList(name: string) {
     const newList = result.data.addList;
     return newList;
 }
+
+export async function renameTodo(id: number, title: string) {
+    const query = `
+        mutation {
+          updateTodo(id: ${id}, data: {title: "${title}"}) {
+            id
+            title
+            completed
+            dueTo
+            important
+          }
+        }
+      `;
+    const response = await graphQLFetch(query);
+    const result = await response.json();
+    return result.data.updateTodo;
+
+}

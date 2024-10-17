@@ -6,8 +6,9 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { SvgIconProps } from '@mui/material/SvgIcon';
 import NameObject from '../../interfaces/NameObject';
 import AddList from './AddList/AddList';
-import EntryNameListElement from './EntryNameListElement/EntryNameListElement';
 import { useBoundStore } from '../../store/boundStore';
+import EnterText from '../EnterText/EnterText';
+import { addTodoList as databaseAddTodoList } from '../../graphQLRequests';
 
 interface defaultListElement {
     id: number;
@@ -19,6 +20,8 @@ export default function ListCollection() {
     const lists: NameObject[] = useBoundStore(state => state.lists);
     const setSelectedList = useBoundStore(state => state.setSelectedList);
     const showNewList = useBoundStore(state => state.showNewList);
+    const setShowNewList = useBoundStore(state => state.setShowNewList);
+    const storeAddTodoList = useBoundStore(state => state.addList);
 
     const handleListClick = (id: number, name: string) => {
         setSelectedList({ id: id, name: name });
@@ -30,6 +33,11 @@ export default function ListCollection() {
         { id: -3, name: 'Next 7 days', icon: CalendarMonthIcon },
         { id: -4, name: 'Important', icon: StarIcon },
     ];
+
+    const handleAddList = async (listName: string) => {
+        const { id } = await databaseAddTodoList(listName);
+        storeAddTodoList(listName, id);
+    };
 
     return (
         <>
@@ -52,8 +60,12 @@ export default function ListCollection() {
             </List>
             <Divider />
             <AddList />
-            {showNewList && <EntryNameListElement />}
             <List>
+                {showNewList && (
+                    <ListItem>
+                        <EnterText close={() => setShowNewList(false)} submit={handleAddList} />
+                    </ListItem>
+                )}
                 {lists.map((list: NameObject) => (
                     <ListItem
                         sx={{

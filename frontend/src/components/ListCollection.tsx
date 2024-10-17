@@ -5,10 +5,16 @@ import TodayIcon from '@mui/icons-material/Today';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { SvgIconProps } from '@mui/material/SvgIcon';
 import NameObject from '../interfaces/NameObject';
+import AddList from './AddList/AddList';
+import EntryNameListElement from './EntryNameListElement/EntryNameListElement';
 
 interface ListCollectionProps {
     lists: NameObject[];
     handleListClick: (id: number, name: string) => void;
+    handleAddListClick: () => void;
+    setShowNewList: (showNewList: boolean) => void;
+    addedListCallback: () => void;
+    showNewList: boolean;
 }
 
 interface defaultListElement {
@@ -17,7 +23,7 @@ interface defaultListElement {
     icon: React.ComponentType<SvgIconProps>;
 }
 
-export default function ListCollection({ lists, handleListClick }: ListCollectionProps) {
+export default function ListCollection({ lists, handleListClick, handleAddListClick, setShowNewList, showNewList, addedListCallback}: ListCollectionProps) {
     const defaultLists: Array<defaultListElement> = [
         { id: -1, name: 'Inbox', icon: InboxIcon },
         { id: -2, name: 'Today', icon: TodayIcon },
@@ -45,6 +51,8 @@ export default function ListCollection({ lists, handleListClick }: ListCollectio
                 ))}
             </List>
             <Divider />
+            <AddList handleAddListClick={handleAddListClick} />
+            {showNewList && <EntryNameListElement addedListCallback={addedListCallback} setShowNewList={setShowNewList} />}
             <List>
                 {lists.map((list: NameObject) => (
                     <ListItem

@@ -139,3 +139,31 @@ export async function getTodoListNames() {
         console.error('Error fetching todo list names:', error);
     }
 }
+
+export async function addTodoList(name: string) {
+    const query = `
+        mutation {
+          addList(name: "${name}") {
+            id
+            name
+          }
+        }
+      `;
+    try {
+        const response = await fetch('http://localhost:8080/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                query,
+            }),
+        });
+
+        const result = await response.json();
+        const newList = result.data.addList;
+        return newList;
+    } catch (error) {
+        console.error('Error adding todo list:', error);
+    }
+}

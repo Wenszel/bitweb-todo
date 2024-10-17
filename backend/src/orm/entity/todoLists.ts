@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, AfterLoad, AfterInsert, AfterUpdate } from 'typeorm';
 import { Todo } from './todo.js';
 
 @Entity()
@@ -11,4 +11,13 @@ export class TodoList {
 
     @OneToMany(() => Todo, todo => todo.todoList)
     todos: Todo[];
+
+    @AfterLoad()
+    @AfterInsert()
+    @AfterUpdate()
+    async undefinedTodosArrayCheck() {
+        if (!this.todos) {
+            this.todos = [];
+        }
+    }
 }

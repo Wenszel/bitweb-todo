@@ -1,15 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { ListItem, TextField } from '@mui/material';
-import { addTodoList } from '../../graphQLRequests';
+import { addTodoList as databaseAddTodoList } from '../../graphQLRequests';
+import { useBoundStore } from '../../store/boundStore';
 
-interface EntryNameListElementProps {
-    setShowNewList: (showNewList: boolean) => void;
-    addedListCallback: () => void;
-}
-
-export default function EntryNameListElement({ setShowNewList, addedListCallback }: EntryNameListElementProps) {
+export default function EntryNameListElement() {
     const nameRef = useRef<HTMLInputElement>(null);
     const [canBeClose, setCanBeClose] = useState<boolean>(false);
+    const storeAddTodoList = useBoundStore(state => state.addList);
+    const setShowNewList = useBoundStore(state => state.setShowNewList);
 
     useEffect(() => {
         if (nameRef.current) {
@@ -19,12 +17,17 @@ export default function EntryNameListElement({ setShowNewList, addedListCallback
         }
     }, []);
 
-    const handleEnter = (event: React.KeyboardEvent) => {
+    const handleEnter = async (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
             setShowNewList(false);
-            if (nameRef.current?.value) {
-                addTodoList(nameRef.current.value);
-                addedListCallback();
+            try {
+                if (nameRef.current?.value) {
+                    const listName = nameRef.current.value;
+                    const { id } = await databaseAddTodoList(listName);
+                    storeAddTodoList(listName, id);
+                }
+            } catch (error) {
+                console.error(error);
             }
         }
     };

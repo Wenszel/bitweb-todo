@@ -4,20 +4,17 @@ import { addTodo } from '../../graphQLRequests';
 import AddIcon from '@mui/icons-material/Add';
 import { useBoundStore } from '../../store/boundStore';
 
-interface AddTodoProps {
-    selectedList: number;
-}
-
-export default function AddTodo({ selectedList }: AddTodoProps) {
+export default function AddTodo() {
     const titleRef = useRef<HTMLInputElement>(null);
     const storeAddTodo = useBoundStore(state => state.addTodo);
+    const selectedListId = useBoundStore(state => state.selectedList).id;
 
     const handleAddTodo = async () => {
         const title = titleRef.current?.value;
         if (!title) return;
         try {
-            await addTodo(title, selectedList);
-            storeAddTodo(title);
+            const { id } = await addTodo(title, selectedListId);
+            storeAddTodo(title, id);
         } catch (error) {
             console.error(error);
         }

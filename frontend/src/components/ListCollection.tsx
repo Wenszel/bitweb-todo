@@ -9,23 +9,20 @@ import AddList from './AddList/AddList';
 import EntryNameListElement from './EntryNameListElement/EntryNameListElement';
 import { useBoundStore } from '../store/boundStore';
 
-interface ListCollectionProps {
-    handleListClick: (id: number, name: string) => void;
-    handleAddListClick: () => void;
-    setShowNewList: (showNewList: boolean) => void;
-    addedListCallback: () => void;
-    showNewList: boolean;
-}
-
 interface defaultListElement {
     id: number;
     name: string;
     icon: React.ComponentType<SvgIconProps>;
 }
 
-export default function ListCollection({ handleListClick, handleAddListClick, setShowNewList, showNewList, addedListCallback}: ListCollectionProps) {
-    
+export default function ListCollection() {
     const lists: NameObject[] = useBoundStore(state => state.lists);
+    const setSelectedList = useBoundStore(state => state.setSelectedList);
+    const showNewList = useBoundStore(state => state.showNewList);
+
+    const handleListClick = (id: number, name: string) => {
+        setSelectedList({ id: id, name: name });
+    };
 
     const defaultLists: Array<defaultListElement> = [
         { id: -1, name: 'Inbox', icon: InboxIcon },
@@ -54,8 +51,8 @@ export default function ListCollection({ handleListClick, handleAddListClick, se
                 ))}
             </List>
             <Divider />
-            <AddList handleAddListClick={handleAddListClick} />
-            {showNewList && <EntryNameListElement addedListCallback={addedListCallback} setShowNewList={setShowNewList} />}
+            <AddList />
+            {showNewList && <EntryNameListElement />}
             <List>
                 {lists.map((list: NameObject) => (
                     <ListItem

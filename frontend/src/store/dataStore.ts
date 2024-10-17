@@ -12,7 +12,8 @@ type Action = {
     setTodos: (todos: Todo[]) => void;
     changeCompletedStatus: (id: number, completed: boolean) => void;
     changeImportance: (id: number, important: boolean) => void;
-    addTodo: (title: string) => void;
+    addTodo: (title: string, id: number) => void;
+    addList: (name: string, id: number) => void;
     deleteTodo: (id: number) => void;
 };
 
@@ -28,18 +29,29 @@ export const createDataStore: StateCreator<DataStoreSlice, [], [], DataStoreSlic
     changeImportance: (id: number, important: boolean) =>
         set((state: State) => ({ ...state, todos: state.todos.map(todo => (todo.id === id ? { ...todo, important } : todo)) })),
     deleteTodo: (id: number) => set((state: State) => ({ ...state, todos: state.todos.filter(todo => todo.id !== id) })),
-    addTodo: (title: string) =>
+    addTodo: (title: string, id: number) =>
         set((state: State) => ({
             ...state,
             todos: [
                 ...state.todos,
                 {
-                    id: state.todos.length + 1,
+                    id: id,
                     title,
                     completed: false,
                     important: false,
                     dueTo: '',
                 },
             ],
+        })),
+    addList: (name: string, id: number) =>
+        set((state: State) => ({
+            ...state,
+            lists: [
+                ...state.lists,
+                {
+                    id: id,
+                    name,
+                },
+            ].sort((a, b) => b.id - a.id),
         })),
 });

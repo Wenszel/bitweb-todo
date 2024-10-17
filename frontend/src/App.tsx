@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useBoundStore } from './store/boundStore';
 import ToDoList from './components/ToDoList/ToDoList';
 import Todo from './interfaces/Todo';
@@ -11,18 +11,11 @@ import ListCollection from './components/ListCollection';
 function App() {
     const setTodos = useBoundStore(state => state.setTodos);
     const setLists = useBoundStore(state => state.setLists);
-    const [selectedList, setSelectedList] = useState<number>(-1);
-    const [selectedListName, setSelectedListName] = useState<string>('Inbox');
-    const [showNewList, setShowNewList] = useState<boolean>(false);
+    const selectedListId = useBoundStore(state => state.selectedList).id;
 
-    const handleListClick = (id: number, name: string) => {
-        setSelectedList(id);
-        setSelectedListName(name);
-    };
-
-    const fetchingData = async () => {
+    const fetchData = async () => {
         let todosData: Todo[];
-        switch (selectedList) {
+        switch (selectedListId) {
             case -1:
                 todosData = await fetchNotStandardLists('Inbox');
                 break;
@@ -36,7 +29,7 @@ function App() {
                 todosData = await fetchNotStandardLists('Important');
                 break;
             default:
-                todosData = await fetchTodos(selectedList);
+                todosData = await fetchTodos(selectedListId);
                 break;
         }
         const listsData: NameObject[] = await getTodoListNames();
@@ -45,31 +38,13 @@ function App() {
     };
 
     useEffect(() => {
-        fetchingData();
-    }, [selectedList]);
-
-    const handleAddListClick = async () => {
-        setShowNewList(true);
-    };
+        fetchData();
+    }, [selectedListId]);
 
     return (
         <>
             <div className="App">
-                <DrawerLayout
-                    drawerContent={
-                        <ListCollection
-                            showNewList={showNewList}
-                            addedListCallback={fetchingData}
-                            setShowNewList={setShowNewList}
-                            handleListClick={handleListClick}
-                            handleAddListClick={handleAddListClick}
-                        />
-                    }
-                    mainContent={
-                        <ToDoList listName={selectedListName} />
-                    }
-                    footerContent={<AddToDo selectedList={selectedList}/>}
-                />
+                <DrawerLayout drawerContent={<ListCollection />} mainContent={<ToDoList />} footerContent={<AddToDo />} />
             </div>
         </>
     );

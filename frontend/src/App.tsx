@@ -68,7 +68,7 @@ function App() {
                     mainContent={
                         <ToDoList listName={selectedListName} />
                     }
-                    footerContent={<AddToDo fetchTodos={fetchingData} selectedList={selectedList}/>}
+                    footerContent={<AddToDo selectedList={selectedList}/>}
                 />
             </div>
         </>

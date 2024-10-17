@@ -6,7 +6,7 @@ import { getTodoListNames, fetchTodos, fetchNotStandardLists } from './graphQLRe
 import NameObject from './interfaces/NameObject';
 import AddToDo from './components/AddToDo/AddToDo';
 import DrawerLayout from './layout/DrawerLayout';
-import ListCollection from './components/ListCollection';
+import ListCollection from './components/ListCollection/ListCollection';
 
 function App() {
     const setTodos = useBoundStore(state => state.setTodos);

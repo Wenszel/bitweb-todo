@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ListItem, TextField } from '@mui/material';
-import { addTodoList as databaseAddTodoList } from '../../graphQLRequests';
-import { useBoundStore } from '../../store/boundStore';
+import { addTodoList as databaseAddTodoList } from '../../../graphQLRequests';
+import { useBoundStore } from '../../../store/boundStore';
 
 export default function EntryNameListElement() {
     const nameRef = useRef<HTMLInputElement>(null);

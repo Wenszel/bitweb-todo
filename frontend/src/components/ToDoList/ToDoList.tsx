@@ -1,16 +1,17 @@
 import { Typography, Paper, Table, TableContainer, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
 import Todo from '../../interfaces/Todo';
 import ToDoElement from '../ToDoElement/ToDoElement';
+import useDataStore from '../../store/dataStore';
 
 interface ToDoListProps {
-    todos: Todo[];
     listName: string;
-    onToggleComplete: (id: number) => void;
     onDelete: (id: number) => void;
     onImportant: (id: number, important: boolean) => void;
 }
 
-const ToDoList = ({ todos, listName, onToggleComplete, onDelete, onImportant }: ToDoListProps) => {
+const ToDoList = ({ listName, onDelete, onImportant }: ToDoListProps) => {
+    const todos = useDataStore(state => state.todos);
+
     return (
         <>
             <Typography variant="h2" sx={{ textAlign: 'center', mb: 1 }}>
@@ -28,8 +29,8 @@ const ToDoList = ({ todos, listName, onToggleComplete, onDelete, onImportant }: 
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {todos.map(todo => (
-                                <ToDoElement key={todo.id} todo={todo} onToggleComplete={onToggleComplete} onDelete={onDelete} onImportant={onImportant} />
+                            {todos.map((todo: Todo) => (
+                                <ToDoElement key={todo.id} todo={todo} onDelete={onDelete} onImportant={onImportant} />
                             ))}
                         </TableBody>
                     </Table>

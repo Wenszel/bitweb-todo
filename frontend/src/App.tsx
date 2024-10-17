@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import useDataStore from './store/dataStore'; 
 import ToDoList from './components/ToDoList/ToDoList';
 import Todo from './interfaces/Todo';
 import { getTodoListNames, fetchTodos, fetchNotStandardLists, removeTodoById, changeTodoImportants} from './graphQLRequests';
@@ -8,8 +9,9 @@ import DrawerLayout from './layout/DrawerLayout';
 import ListCollection from './components/ListCollection';
 
 function App() {
-    const [todos, setTodos] = useState<Array<Todo>>([]);
-    const [lists, setLists] = useState<Array<NameObject>>([]);
+    const lists = useDataStore(state => state.lists); 
+    const setTodos = useDataStore(state => state.setTodos);
+    const setLists = useDataStore(state => state.setLists);
     const [selectedList, setSelectedList] = useState<number>(-1);
     const [selectedListName, setSelectedListName] = useState<string>('Inbox');
     const [showNewList, setShowNewList] = useState<boolean>(false);
@@ -40,26 +42,12 @@ function App() {
         }
         const listsData: NameObject[] = await getTodoListNames();
         setTodos(todosData);
-        console.log(todosData);
         setLists(listsData);
     };
 
     useEffect(() => {
         fetchingData();
     }, [selectedList]);
-
-    const onToggleComplete = (id: number) => {
-        setTodos(
-            todos.map((todo: Todo) =>
-                todo.id == id
-                    ? {
-                          ...todo,
-                          completed: !todo.completed,
-                      }
-                    : todo,
-            ),
-        );
-    };
 
     const handleAddListClick = async () => {
         setShowNewList(true);
@@ -89,7 +77,7 @@ function App() {
                         />
                     }
                     mainContent={
-                        <ToDoList listName={selectedListName} todos={todos} onToggleComplete={onToggleComplete} onDelete={onDelete} onImportant={onImportant} />
+                        <ToDoList listName={selectedListName} onDelete={onDelete} onImportant={onImportant} />
                     }
                     footerContent={<AddToDo fetchTodos={fetchingData} selectedList={selectedList}/>}
                 />

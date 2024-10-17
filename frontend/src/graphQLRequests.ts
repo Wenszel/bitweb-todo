@@ -69,6 +69,23 @@ export async function changeTodoImportants(id: number, important: boolean) {
         console.error('Error updating todo:', error);
     }
 }
+
+export async function changeCompletedStatus(id: number, completed: boolean) {
+    const query = `
+        mutation {
+          updateTodo(id: ${id}, data: {completed: ${completed}}) {
+            id
+            title
+            completed
+            dueTo
+            important
+          }
+        }`;
+    const response = await graphQLFetch(query);
+    const result = await response.json();
+    return result.data.updateTodo;
+}
+
 export async function removeTodoById(id: number) {
     const query = `
         mutation {

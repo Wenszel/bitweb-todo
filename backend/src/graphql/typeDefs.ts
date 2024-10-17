@@ -26,12 +26,20 @@ export default buildSchema(`#graphql
     getToday: [Todo!]!
     getWeek: [Todo!]!
     getImportant: [Todo!]!
-    todos: [Todo!]!
+    todos: [TodoWithList!]!
+  }
+
+  type TodoWithList {
+    id: ID!
+    title: String!
+    completed: Boolean!
+    dueTo: String
+    todoList: TodoList
   }
 
   type Mutation {
     addList(name: String!): TodoList!
-    addTodo(title: String!, dueTo: String): Todo!
+    addTodo(title: String!, listId: ID!): Todo!
     toggleTodoStatus(id: ID!): Todo!
     removeTodoById(id: ID!): Boolean!
     addTodoDueDate(id: ID!, dueTo: String!): Todo!

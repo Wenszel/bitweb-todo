@@ -4,19 +4,18 @@ import { addTodo } from '../../graphQLRequests';
 import AddIcon from '@mui/icons-material/Add';
 
 interface AddTodoProps {
+    selectedList: number;
     fetchTodos: () => Promise<void>;
 }
 
-export default function AddTodo({ fetchTodos }: AddTodoProps) {
+export default function AddTodo({ selectedList, fetchTodos }: AddTodoProps) {
     const titleRef = useRef<HTMLInputElement>(null);
-    const dueToRef = useRef<HTMLInputElement>(null);
 
     const handleAddTodo = async () => {
         const title = titleRef.current?.value;
         if (!title) return;
-        const dueTo = dueToRef.current?.value;
-        await addTodo(title, dueTo);
-        fetchTodos();
+        await addTodo(title, selectedList);
+        await fetchTodos();
     };
 
     return (

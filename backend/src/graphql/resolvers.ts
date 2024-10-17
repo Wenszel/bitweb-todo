@@ -29,12 +29,11 @@ export default {
         addList: async (_, { name }) => {
             return await todoListService.createList(name);
         },
-        addTodo: async (_, { title, dueTo, listId }) => {
+        addTodo: async (_, { title, listId }) => {
             return await todoService.createTodo(
                 {
                     title,
                     completed: false,
-                    dueTo,
                 },
                 listId,
             );

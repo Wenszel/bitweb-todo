@@ -38,7 +38,7 @@ export async function fetchNotStandardLists(type: string) {
                 completed
                 dueTo
                 }
-    }`
+    }`;
     try {
         const response = await fetch('http://localhost:8080/graphql', {
             method: 'POST',
@@ -82,10 +82,10 @@ export async function removeTodoById(id: number) {
     }
 }
 
-export async function addTodo(title: string, dueTo?: string) {
+export async function addTodo(title: string, listId: number) {
     const query = `
         mutation {
-          addTodo(title: "${title}" ${dueTo ? `, dueTo: "${dueTo}"` : ''}) {
+            addTodo(title: "${title}", listId: ${listId}) {
             id
             title
             completed

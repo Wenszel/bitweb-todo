@@ -11,7 +11,8 @@ const AppDataSource = new DataSource({
 });
 
 const getTodoRepository = async () => {
-    return AppDataSource.getRepository(Todo);
+    const repository = AppDataSource.getRepository(Todo);
+    return repository; 
 };
 
 const getTodoListRepository = async () => {

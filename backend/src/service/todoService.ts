@@ -6,7 +6,7 @@ import { TodoList } from '../orm/entity/todoLists.js';
 export default {
     async getAllTodos(): Promise<Todo[]> {
         const todoRepository = await getTodoRepository();
-        return await todoRepository.find();
+        return await todoRepository.find({ relations: ['todoList'] });
     },
 
     async getTodoById(id: number): Promise<Todo | null> {
@@ -19,7 +19,11 @@ export default {
     },
     async getInbox(): Promise<Todo[]> {
         const todoRepository: Repository<Todo> = await getTodoRepository();
-        return await todoRepository.findBy({ todoList: null });
+        return todoRepository
+            .createQueryBuilder('todo')
+            .leftJoinAndSelect('todo.todoList', 'todoList')
+            .where('todoList.id IS NULL')
+            .getMany();
     },
     async getToday(): Promise<Todo[]> {
         const todoRepository: Repository<Todo> = await getTodoRepository();
@@ -37,12 +41,12 @@ export default {
             },
         });
     },
-    async createTodo(data: Partial<Todo>, listId: number|undefined): Promise<Todo> {
+    async createTodo(data: Partial<Todo>, listId: number | undefined): Promise<Todo> {
         const todoRepository: Repository<Todo> = await getTodoRepository();
         const listRepository: Repository<TodoList> = await getTodoListRepository();
         const todo: Todo = todoRepository.create(data);
         if (listId) {
-            const list: TodoList = await listRepository.findOneBy({ id: listId });
+            const list: TodoList = await listRepository.findOne({ where: { id: listId }, relations: ['todos'] });
             todo.todoList = list;
             list.todos.push(todo);
         }

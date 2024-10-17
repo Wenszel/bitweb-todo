@@ -27,8 +27,11 @@ export default {
     },
     async todoListById(id: number): Promise<Todo[]> {
         const todoListRepository: Repository<TodoList> = await getTodoListRepository();
-        const todoList: TodoList = await todoListRepository.findOneBy({ id });
-        console.log(todoList);
+        const todoList: TodoList = await todoListRepository.findOne({
+            where: { id },
+            relations: { todos: true },
+        });
+        console.log(todoList.todos);
         return todoList.todos;
     },
 };

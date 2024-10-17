@@ -7,7 +7,7 @@ import { SvgIconProps } from '@mui/material/SvgIcon';
 import NameObject from '../interfaces/NameObject';
 import AddList from './AddList/AddList';
 import EntryNameListElement from './EntryNameListElement/EntryNameListElement';
-import useDataStore from '../store/dataStore';
+import { useBoundStore } from '../store/boundStore';
 
 interface ListCollectionProps {
     handleListClick: (id: number, name: string) => void;
@@ -25,8 +25,8 @@ interface defaultListElement {
 
 export default function ListCollection({ handleListClick, handleAddListClick, setShowNewList, showNewList, addedListCallback}: ListCollectionProps) {
     
-    const lists: NameObject[] = useDataStore(state => state.lists);
-    
+    const lists: NameObject[] = useBoundStore(state => state.lists);
+
     const defaultLists: Array<defaultListElement> = [
         { id: -1, name: 'Inbox', icon: InboxIcon },
         { id: -2, name: 'Today', icon: TodayIcon },

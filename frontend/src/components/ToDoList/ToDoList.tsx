@@ -3,7 +3,7 @@ import Todo from '../../interfaces/Todo';
 import ToDoElement from './ToDoElement/ToDoElement';
 import { useBoundStore } from '../../store/boundStore';
 import ContextMenu from '../ContextMenu/ContextMenu';
-import { useTodoActions } from './useTodoActions';
+import { useTodoActions } from '../../hooks/todos/useTodoActions';
 
 const ToDoList = () => {
     const todos = useBoundStore(state => state.todos);

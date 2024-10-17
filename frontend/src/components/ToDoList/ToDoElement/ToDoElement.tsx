@@ -4,7 +4,9 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import Todo from '../../../interfaces/Todo';
 import { useBoundStore } from '../../../store/boundStore';
-import { useHandleDelete, useHandleCompleted, useHandleImportance } from '../useTodoActions';
+import { useHandleCompleted } from '../../../hooks/todos/useHandleCompleted';
+import { useHandleImportance } from '../../../hooks/todos/useHandleImportance';
+import { useHandleDelete } from '../../../hooks/todos/useHandleDelete';
 
 export interface ToDoElementProps {
     todo: Todo;

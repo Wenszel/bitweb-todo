@@ -26,7 +26,6 @@ export const useTodoActions = () => {
                 setModifyingTodo(null);
             },
         },
-        { action: 'Change date', handler: () => console.log('Change date') },
         {
             action: 'Rename',
             handler: () => {

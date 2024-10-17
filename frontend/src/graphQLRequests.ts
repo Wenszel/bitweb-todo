@@ -144,5 +144,21 @@ export async function renameTodo(id: number, title: string) {
     const response = await graphQLFetch(query);
     const result = await response.json();
     return result.data.updateTodo;
-
+}
+ 
+export async function changeDueTo(id: number, dueTo: string) {
+    const query = `
+        mutation {
+          updateTodo(id: ${id}, data: {dueTo: "${dueTo}"}) {
+            id
+            title
+            completed
+            dueTo
+            important
+          }
+        }
+      `;
+    const response = await graphQLFetch(query);
+    const result = await response.json();
+    return result.data.updateTodo;
 }

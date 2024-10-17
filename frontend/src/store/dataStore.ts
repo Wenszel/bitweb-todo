@@ -15,6 +15,7 @@ type Action = {
     renameTodo: (id: number, title: string) => void;
     addTodo: (title: string, id: number) => void;
     addList: (name: string, id: number) => void;
+    changeDueTo(id: number, dueTo: string): void;
     deleteTodo: (id: number) => void;
 };
 
@@ -29,6 +30,8 @@ export const createDataStore: StateCreator<DataStoreSlice, [], [], DataStoreSlic
         set((state: State) => ({ ...state, todos: state.todos.map(todo => (todo.id === id ? { ...todo, completed } : todo)) })),
     changeImportance: (id: number, important: boolean) =>
         set((state: State) => ({ ...state, todos: state.todos.map(todo => (todo.id === id ? { ...todo, important } : todo)) })),
+    changeDueTo: (id: number, dueTo: string) =>
+        set((state: State) => ({ ...state, todos: state.todos.map(todo => (todo.id === id ? { ...todo, dueTo } : todo)) })),
     deleteTodo: (id: number) => set((state: State) => ({ ...state, todos: state.todos.filter(todo => todo.id !== id) })),
     renameTodo: (id: number, title: string) =>
         set((state: State) => ({ ...state, todos: state.todos.map(todo => (todo.id === id ? { ...todo, title } : todo)) })),

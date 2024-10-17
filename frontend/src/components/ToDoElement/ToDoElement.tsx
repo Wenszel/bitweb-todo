@@ -8,16 +8,16 @@ import {
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import Todo from '../../interfaces/Todo';
-import useDataStore from '../../store/dataStore';
+import { useBoundStore } from '../../store/boundStore';
 
 export interface ToDoElementProps {
     todo: Todo;
 }
 
 export default function ToDoElement({ todo }: ToDoElementProps) {
-    const storeChangeCompletedStatus = useDataStore(state => state.changeCompletedStatus);
-    const storeChangeImportance = useDataStore(state => state.changeImportance);
-    const storeDeleteTodo = useDataStore(state => state.deleteTodo);
+    const storeChangeCompletedStatus = useBoundStore(state => state.changeCompletedStatus);
+    const storeChangeImportance = useBoundStore(state => state.changeImportance);
+    const storeDeleteTodo = useBoundStore(state => state.deleteTodo);
 
     const handleRightClick = (e: React.MouseEvent) => {
         e.preventDefault();

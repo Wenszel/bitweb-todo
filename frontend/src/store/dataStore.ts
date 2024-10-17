@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { StateCreator } from 'zustand';
 import Todo from '../interfaces/Todo';
 import NameObject from '../interfaces/NameObject';
 
@@ -16,18 +16,20 @@ type Action = {
     deleteTodo: (id: number) => void;
 };
 
-const useDataStore = create<State & Action>(set => ({
+export type DataStoreSlice = State & Action;
+
+export const createDataStore: StateCreator<DataStoreSlice, [], [], DataStoreSlice> = set => ({
     todos: [],
     lists: [],
     setLists: (lists: NameObject[]) => set({ lists }),
     setTodos: (todos: Todo[]) => set({ todos }),
     changeCompletedStatus: (id: number, completed: boolean) =>
-        set(state => ({ ...state, todos: state.todos.map(todo => (todo.id === id ? { ...todo, completed } : todo)) })),
+        set((state: State) => ({ ...state, todos: state.todos.map(todo => (todo.id === id ? { ...todo, completed } : todo)) })),
     changeImportance: (id: number, important: boolean) =>
-        set(state => ({ ...state, todos: state.todos.map(todo => (todo.id === id ? { ...todo, important } : todo)) })),
-    deleteTodo: (id: number) => set(state => ({ ...state, todos: state.todos.filter(todo => todo.id !== id) })),
+        set((state: State) => ({ ...state, todos: state.todos.map(todo => (todo.id === id ? { ...todo, important } : todo)) })),
+    deleteTodo: (id: number) => set((state: State) => ({ ...state, todos: state.todos.filter(todo => todo.id !== id) })),
     addTodo: (title: string) =>
-        set(state => ({
+        set((state: State) => ({
             ...state,
             todos: [
                 ...state.todos,
@@ -40,6 +42,4 @@ const useDataStore = create<State & Action>(set => ({
                 },
             ],
         })),
-}));
-
-export default useDataStore;
+});

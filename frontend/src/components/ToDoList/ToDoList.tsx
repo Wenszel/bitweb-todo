@@ -1,14 +1,14 @@
 import { Typography, Paper, Table, TableContainer, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
 import Todo from '../../interfaces/Todo';
 import ToDoElement from '../ToDoElement/ToDoElement';
-import useDataStore from '../../store/dataStore';
+import {useBoundStore }from '../../store/boundStore';
 
 interface ToDoListProps {
     listName: string;
 }
 
 const ToDoList = ({ listName }: ToDoListProps) => {
-    const todos = useDataStore(state => state.todos);
+    const todos = useBoundStore(state => state.todos);
 
     return (
         <>

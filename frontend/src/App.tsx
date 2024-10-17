@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import useDataStore from './store/dataStore'; 
+import { useBoundStore } from './store/boundStore';
 import ToDoList from './components/ToDoList/ToDoList';
 import Todo from './interfaces/Todo';
 import { getTodoListNames, fetchTodos, fetchNotStandardLists } from './graphQLRequests';
@@ -9,8 +9,8 @@ import DrawerLayout from './layout/DrawerLayout';
 import ListCollection from './components/ListCollection';
 
 function App() {
-    const setTodos = useDataStore(state => state.setTodos);
-    const setLists = useDataStore(state => state.setLists);
+    const setTodos = useBoundStore(state => state.setTodos);
+    const setLists = useBoundStore(state => state.setLists);
     const [selectedList, setSelectedList] = useState<number>(-1);
     const [selectedListName, setSelectedListName] = useState<string>('Inbox');
     const [showNewList, setShowNewList] = useState<boolean>(false);

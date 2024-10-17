@@ -5,11 +5,9 @@ import useDataStore from '../../store/dataStore';
 
 interface ToDoListProps {
     listName: string;
-    onDelete: (id: number) => void;
-    onImportant: (id: number, important: boolean) => void;
 }
 
-const ToDoList = ({ listName, onDelete, onImportant }: ToDoListProps) => {
+const ToDoList = ({ listName }: ToDoListProps) => {
     const todos = useDataStore(state => state.todos);
 
     return (
@@ -30,7 +28,7 @@ const ToDoList = ({ listName, onDelete, onImportant }: ToDoListProps) => {
                         </TableHead>
                         <TableBody>
                             {todos.map((todo: Todo) => (
-                                <ToDoElement key={todo.id} todo={todo} onDelete={onDelete} onImportant={onImportant} />
+                                <ToDoElement key={todo.id} todo={todo} />
                             ))}
                         </TableBody>
                     </Table>

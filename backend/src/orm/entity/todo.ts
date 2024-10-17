@@ -9,14 +9,14 @@ export class Todo {
     @Column('text')
     title: string;
 
-    @Column()
+    @Column({ default: false, nullable: false })
     completed: boolean;
 
     @Column({ nullable: true })
     dueTo: string;
 
-    @Column({ nullable: false })
-    important: boolean = false;
+    @Column({ default: false, nullable: false })
+    important: boolean;
 
     @ManyToOne(() => TodoList, todoList => todoList.todos, {
         cascade: true,

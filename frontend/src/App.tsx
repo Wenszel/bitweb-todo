@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import ToDoList from './components/ToDoList/ToDoList';
 import Todo from './interfaces/Todo';
-import { getTodoListNames, fetchTodos, fetchNotStandardLists, removeTodoById } from './graphQLRequests';
+import { getTodoListNames, fetchTodos, fetchNotStandardLists, removeTodoById, changeTodoImportants} from './graphQLRequests';
 import NameObject from './interfaces/NameObject';
 import AddToDo from './components/AddToDo/AddToDo';
 import DrawerLayout from './layout/DrawerLayout';
@@ -40,6 +40,7 @@ function App() {
         }
         const listsData: NameObject[] = await getTodoListNames();
         setTodos(todosData);
+        console.log(todosData);
         setLists(listsData);
     };
 
@@ -69,6 +70,10 @@ function App() {
         fetchingData();
     };
 
+    const onImportant = async (id: number, important: boolean) => {
+        await changeTodoImportants(id, important);
+        fetchingData();
+    };
     return (
         <>
             <div className="App">
@@ -84,7 +89,7 @@ function App() {
                         />
                     }
                     mainContent={
-                        <ToDoList listName={selectedListName} todos={todos} onToggleComplete={onToggleComplete} onDelete={onDelete} />
+                        <ToDoList listName={selectedListName} todos={todos} onToggleComplete={onToggleComplete} onDelete={onDelete} onImportant={onImportant} />
                     }
                     footerContent={<AddToDo fetchTodos={fetchingData} selectedList={selectedList}/>}
                 />

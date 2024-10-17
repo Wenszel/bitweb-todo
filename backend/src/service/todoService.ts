@@ -56,7 +56,7 @@ export default {
     async updateTodo(id: number, data: Partial<Todo>): Promise<Todo | null> {
         const todoRepository = await getTodoRepository();
         const todo = await todoRepository.findOneBy({ id });
-
+        console.log('happend');
         if (!todo) {
             return null;
         }
@@ -64,7 +64,6 @@ export default {
         Object.assign(todo, data);
         return await todoRepository.save(todo);
     },
-
     async deleteTodo(id: number): Promise<boolean> {
         const todoRepository = await getTodoRepository();
         const todo: Todo = await todoRepository.findOneBy({ id: id });

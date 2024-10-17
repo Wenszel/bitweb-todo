@@ -1,3 +1,15 @@
+function graphQLFetch(query: string) {
+    return fetch('http://localhost:8080/graphql', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            query,
+        }),
+    });
+}
+
 export async function fetchTodos(listId: number) {
     const query = `
           query {
@@ -5,24 +17,15 @@ export async function fetchTodos(listId: number) {
               id
               title
               completed
+              important
               dueTo
             }
           }
         `;
 
     try {
-        const response = await fetch('http://localhost:8080/graphql', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                query,
-            }),
-        });
-
+        const response = await graphQLFetch(query);
         const result = await response.json();
-        console.log('result' + JSON.stringify(result));
         return result.data.todosByListId;
     } catch (error) {
         console.error('Error fetching todos:', error);
@@ -40,23 +43,32 @@ export async function fetchNotStandardLists(type: string) {
                 }
     }`;
     try {
-        const response = await fetch('http://localhost:8080/graphql', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                query,
-            }),
-        });
-
+        const response = await graphQLFetch(query);
         const result = await response.json();
         return result.data[`get${type}`];
     } catch (error) {
         console.error('Error fetching todos:', error);
     }
 }
-
+export async function changeTodoImportants(id: number, important: boolean) {
+    const query = `
+        mutation {
+          updateTodo(id: ${id}, data: {important: ${important}}) {
+            id
+            title
+            completed
+            dueTo
+            important
+          }
+        }`;
+    try {
+        const response = await graphQLFetch(query);
+        const result = await response.json();
+        return result.data.updateTodo;
+    } catch (error) {
+        console.error('Error updating todo:', error);
+    }
+}
 export async function removeTodoById(id: number) {
     const query = `
         mutation {
@@ -64,19 +76,7 @@ export async function removeTodoById(id: number) {
 }
             `;
     try {
-        const response = await fetch('http://localhost:8080/graphql', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                query,
-            }),
-        });
-
-        const result = await response.json();
-        const removedTodo = result.data.removeTodoById;
-        return removedTodo;
+        graphQLFetch(query);
     } catch (error) {
         console.error('Error removing todo:', error);
     }
@@ -94,16 +94,7 @@ export async function addTodo(title: string, listId: number) {
         }
       `;
     try {
-        const response = await fetch('http://localhost:8080/graphql', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                query,
-            }),
-        });
-
+        const response = await graphQLFetch(query);
         const result = await response.json();
         const newTodo = result.data.addTodo;
         return newTodo;
@@ -122,18 +113,8 @@ export async function getTodoListNames() {
         }
       `;
     try {
-        const response = await fetch('http://localhost:8080/graphql', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                query,
-            }),
-        });
-
+        const response = await graphQLFetch(query);
         const result = await response.json();
-        console.log(result.data.listNames);
         return result.data.listNames;
     } catch (error) {
         console.error('Error fetching todo list names:', error);
@@ -150,16 +131,7 @@ export async function addTodoList(name: string) {
         }
       `;
     try {
-        const response = await fetch('http://localhost:8080/graphql', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                query,
-            }),
-        });
-
+        const response = await graphQLFetch(query);
         const result = await response.json();
         const newList = result.data.addList;
         return newList;

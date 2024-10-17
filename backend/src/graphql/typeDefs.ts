@@ -5,6 +5,7 @@ export default buildSchema(`#graphql
     id: ID!
     title: String!
     completed: Boolean!
+    important: Boolean!
     dueTo: String
   }
 
@@ -36,12 +37,20 @@ export default buildSchema(`#graphql
     dueTo: String
     todoList: TodoList
   }
+  
+  input TodoInput {
+    title: String
+    completed: Boolean
+    important: Boolean
+    dueTo: String
+  }
 
   type Mutation {
     addList(name: String!): TodoList!
     addTodo(title: String!, listId: ID!): Todo!
     toggleTodoStatus(id: ID!): Todo!
     removeTodoById(id: ID!): Boolean!
+    updateTodo(id: ID!, data: TodoInput!): Todo!
     addTodoDueDate(id: ID!, dueTo: String!): Todo!
     renameTodo(id: ID!, title: String!): Todo!
   }

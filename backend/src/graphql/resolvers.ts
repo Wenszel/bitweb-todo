@@ -47,8 +47,8 @@ export default {
         addTodoDueDate: async (_, { id }) => {
             return await todoService.updateTodo(id, { dueTo: '2021-12-31' });
         },
-        renameTodo: async (_, { id, title }) => {
-            return await todoService.updateTodo(id, { title });
+        updateTodo: async (_, {id, data}) => {
+            return await todoService.updateTodo(id, data);
         },
     },
 };

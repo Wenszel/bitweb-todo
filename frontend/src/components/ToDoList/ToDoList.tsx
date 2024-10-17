@@ -7,9 +7,10 @@ interface ToDoListProps {
     listName: string;
     onToggleComplete: (id: number) => void;
     onDelete: (id: number) => void;
+    onImportant: (id: number, important: boolean) => void;
 }
 
-const ToDoList = ({ todos, listName, onToggleComplete, onDelete }: ToDoListProps) => {
+const ToDoList = ({ todos, listName, onToggleComplete, onDelete, onImportant }: ToDoListProps) => {
     return (
         <>
             <Typography variant="h2" sx={{ textAlign: 'center', mb: 1 }}>
@@ -28,7 +29,7 @@ const ToDoList = ({ todos, listName, onToggleComplete, onDelete }: ToDoListProps
                         </TableHead>
                         <TableBody>
                             {todos.map(todo => (
-                                <ToDoElement key={todo.id} todo={todo} onToggleComplete={onToggleComplete} onDelete={onDelete} />
+                                <ToDoElement key={todo.id} todo={todo} onToggleComplete={onToggleComplete} onDelete={onDelete} onImportant={onImportant} />
                             ))}
                         </TableBody>
                     </Table>

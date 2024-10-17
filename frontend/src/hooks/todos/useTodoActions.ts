@@ -1,4 +1,4 @@
-import { useBoundStore } from '../../store/boundStore'; 
+import { useBoundStore } from '../../store/boundStore';
 import Todo from '../../interfaces/Todo';
 import { ContextMenuAction } from '../../components/ContextMenu/ContextMenu';
 import { useHandleCompleted } from './useHandleCompleted';
@@ -11,6 +11,8 @@ export const useTodoActions = () => {
     const handleDelete = useHandleDelete();
     const setModifyingTodo = useBoundStore(state => state.setModifyingTodo);
     const setShowContextMenu = useBoundStore(state => state.setShowContextMenu);
+    const setModifyingTodoName = useBoundStore(state => state.setModifyTodoName);
+
     const modifyingTodo: Todo | null = useBoundStore(state => state.modifyingTodo);
     if (!modifyingTodo) {
         return [];
@@ -25,7 +27,13 @@ export const useTodoActions = () => {
             },
         },
         { action: 'Change date', handler: () => console.log('Change date') },
-        { action: 'Rename', handler: () => console.log('Edit') },
+        {
+            action: 'Rename',
+            handler: () => {
+                setModifyingTodo(modifyingTodo);
+                setModifyingTodoName(true);
+            },
+        },
         {
             action: 'Mark as important',
             handler: () => {

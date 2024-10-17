@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react';
 import useDataStore from './store/dataStore'; 
 import ToDoList from './components/ToDoList/ToDoList';
 import Todo from './interfaces/Todo';
-import { getTodoListNames, fetchTodos, fetchNotStandardLists, removeTodoById, changeTodoImportants} from './graphQLRequests';
+import { getTodoListNames, fetchTodos, fetchNotStandardLists } from './graphQLRequests';
 import NameObject from './interfaces/NameObject';
 import AddToDo from './components/AddToDo/AddToDo';
 import DrawerLayout from './layout/DrawerLayout';
 import ListCollection from './components/ListCollection';
 
 function App() {
-    const lists = useDataStore(state => state.lists); 
     const setTodos = useDataStore(state => state.setTodos);
     const setLists = useDataStore(state => state.setLists);
     const [selectedList, setSelectedList] = useState<number>(-1);
@@ -53,22 +52,12 @@ function App() {
         setShowNewList(true);
     };
 
-    const onDelete = async (id: number) => {
-        await removeTodoById(id);
-        fetchingData();
-    };
-
-    const onImportant = async (id: number, important: boolean) => {
-        await changeTodoImportants(id, important);
-        fetchingData();
-    };
     return (
         <>
             <div className="App">
                 <DrawerLayout
                     drawerContent={
                         <ListCollection
-                            lists={lists}
                             showNewList={showNewList}
                             addedListCallback={fetchingData}
                             setShowNewList={setShowNewList}
@@ -77,7 +66,7 @@ function App() {
                         />
                     }
                     mainContent={
-                        <ToDoList listName={selectedListName} onDelete={onDelete} onImportant={onImportant} />
+                        <ToDoList listName={selectedListName} />
                     }
                     footerContent={<AddToDo fetchTodos={fetchingData} selectedList={selectedList}/>}
                 />

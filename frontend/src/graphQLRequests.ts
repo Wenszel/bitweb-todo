@@ -50,7 +50,8 @@ export async function fetchNotStandardLists(type: string) {
         console.error('Error fetching todos:', error);
     }
 }
-export async function changeTodoImportants(id: number, important: boolean) {
+
+export async function changeImportance(id: number, important: boolean) {
     const query = `
         mutation {
           updateTodo(id: ${id}, data: {important: ${important}}) {
